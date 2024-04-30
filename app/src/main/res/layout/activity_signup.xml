@@ -62,8 +62,7 @@
                 android:textSize="16dp" />
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/nameTxt"
-                style="@style/ThemeOverlay.MaterialComponents.TextInputEditText.OutlinedBox"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
@@ -83,6 +82,7 @@
                 app:startIconTint="@color/white">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/nameTxt"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/blinker"
@@ -92,8 +92,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/usernameTxt"
-                style="@style/ThemeOverlay.MaterialComponents.TextInputEditText.OutlinedBox"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -113,6 +112,7 @@
                 app:startIconTint="@color/white">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/usernameTxt"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/blinker"
@@ -122,8 +122,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/emailTxt"
-                style="@style/ThemeOverlay.MaterialComponents.TextInputEditText.OutlinedBox"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -143,6 +142,7 @@
                 app:startIconTint="@color/white">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/emailTxt"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/blinker"
@@ -152,8 +152,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/phoneTxt"
-                style="@style/ThemeOverlay.MaterialComponents.TextInputEditText.OutlinedBox"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -173,6 +172,7 @@
                 app:startIconTint="@color/white">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/phoneTxt"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/blinker"
@@ -182,8 +182,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/ageTxt"
-                style="@style/ThemeOverlay.MaterialComponents.TextInputEditText.OutlinedBox"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -203,6 +202,7 @@
                 app:startIconTint="@color/white">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/ageTxt"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/blinker"
@@ -250,8 +250,7 @@
                 </RadioGroup>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/passwordTxt"
-                style="@style/ThemeOverlay.MaterialComponents.TextInputEditText.OutlinedBox"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -271,6 +270,7 @@
                 app:startIconTint="@color/white">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/passwordTxt"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:fontFamily="@font/blinker"
@@ -280,8 +280,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/confirm_passwordTxt"
-                style="@style/ThemeOverlay.MaterialComponents.TextInputEditText.OutlinedBox"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -301,6 +300,7 @@
                 app:startIconTint="@color/white">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/confirm_passwordTxt"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:fontFamily="@font/blinker"
@@ -334,7 +334,6 @@
                 android:onClick="callSignUpFromLogin"
                 android:text="Login"
                 android:textColor="@color/white"
-
                 android:textSize="18dp" />
 
         </LinearLayout>

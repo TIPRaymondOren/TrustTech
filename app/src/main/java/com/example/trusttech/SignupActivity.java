@@ -74,7 +74,7 @@ public class SignupActivity extends AppCompatActivity {
                 String password= passwordTxt.getText().toString();
                 String confirm_password= confirm_passwordTxt.getText().toString();
 
-               /* // Validate name
+               // Validate name
                 if (name.isEmpty()) {
                     nameTxt.setError("Name is required");
                     nameTxt.requestFocus();
@@ -141,7 +141,7 @@ public class SignupActivity extends AppCompatActivity {
                     confirm_passwordTxt.setError("Passwords do not match");
                     confirm_passwordTxt.requestFocus();
                     return;
-                }*/
+                }
 
                 // If all validations pass, create the account
                 userHelperClass helperClass= new userHelperClass(name, username, email, phone, age, password, confirm_password);
