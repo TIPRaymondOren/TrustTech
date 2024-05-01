@@ -1,24 +1,36 @@
 package com.example.trusttech;
 
 import android.os.Bundle;
+import android.widget.TextView;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 public class ProfileActivity extends AppCompatActivity {
 
+
+    TextView tv1, tv2, tv3, tv4, tv5;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_profile);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
+
+        tv1 = findViewById(R.id.textView);
+        tv2 = findViewById(R.id.textView2);
+        tv3 = findViewById(R.id.textView3);
+        tv4 = findViewById(R.id.textView4);
+        tv5 = findViewById(R.id.textView5);
+
+        String username = getIntent().getStringExtra("usernameFromLogin");
+        String name = getIntent().getStringExtra("nameFromLogin");
+        String email = getIntent().getStringExtra("emailFromLogin");
+        String phone = getIntent().getStringExtra("phoneFromLogin");
+        String age = getIntent().getStringExtra("ageFromLogin");
+
+        tv1.setText(username);
+        tv2.setText(name);
+        tv3.setText(email);
+        tv4.setText(phone);
+        tv5.setText(age);
+
     }
 }

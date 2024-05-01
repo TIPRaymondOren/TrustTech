@@ -74,23 +74,26 @@
             android:textSize="20sp" />
 
         <com.chaos.view.PinView
+            android:id="@+id/pinView"
             style="@style/PinWidget.PinView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="30dp"
             android:cursorVisible="true"
+            android:fontFamily="@font/blinker_semibold"
             android:inputType="number"
+            android:itemBackground="@color/white"
+            android:textColor="@color/secondary_color"
             app:cursorColor="@color/white"
             app:hideLineWhenFilled="true"
             app:itemCount="6"
             app:itemHeight="50dp"
             app:itemRadius="5dp"
-            app:itemWidth="50dp"
-            android:itemBackground="@color/white"
-            android:textColor="@color/secondary_color"
-            android:fontFamily="@font/blinker_semibold"/>
+            app:itemWidth="50dp" />
+
         <Button
+            android:id="@+id/verifyBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="40dp"
@@ -98,7 +101,10 @@
             android:fontFamily="@font/blinker_semibold"
             android:padding="10dp"
             android:text="Verify Code"
-            android:textSize="30dp"></Button>
+            android:textSize="30dp"
+            android:textColor="@color/white">
+
+        </Button>
     </LinearLayout>
 
 

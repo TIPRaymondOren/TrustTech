@@ -69,7 +69,7 @@ public class SignupActivity extends AppCompatActivity {
                 String name= nameTxt.getText().toString();
                 String username= usernameTxt.getText().toString();
                 String email= emailTxt.getText().toString();
-                String phone= phoneTxt.getText().toString();
+                String rawPhone= phoneTxt.getText().toString();
                 String age= ageTxt.getText().toString();
                 String password= passwordTxt.getText().toString();
                 String confirm_password= confirm_passwordTxt.getText().toString();
@@ -100,11 +100,11 @@ public class SignupActivity extends AppCompatActivity {
                 }
 
                 // Validate phone number
-                if (phone.isEmpty()) {
+                if (rawPhone.isEmpty()) {
                     phoneTxt.setError("Phone number is required");
                     phoneTxt.requestFocus();
                     return;
-                } else if (!android.util.Patterns.PHONE.matcher(phone).matches()) {
+                } else if (!android.util.Patterns.PHONE.matcher(rawPhone).matches()) {
                     phoneTxt.setError("Invalid phone number");
                     phoneTxt.requestFocus();
                     return;
@@ -142,6 +142,9 @@ public class SignupActivity extends AppCompatActivity {
                     confirm_passwordTxt.requestFocus();
                     return;
                 }
+
+                //add country code
+                String phone = "+63" + rawPhone;
 
                 // If all validations pass, create the account
                 userHelperClass helperClass= new userHelperClass(name, username, email, phone, age, password, confirm_password);

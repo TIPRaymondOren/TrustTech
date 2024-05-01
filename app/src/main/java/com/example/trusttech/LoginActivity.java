@@ -118,7 +118,7 @@ public class LoginActivity extends AppCompatActivity {
                         String ageFromDB = dataSnapshot.child(userEnteredUser).child("age").getValue(String.class);
 
 
-                        Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
+                        Intent intent = new Intent(getApplicationContext(), OtpActivity.class);
 
                         intent.putExtra("username", userFromDB);
                         intent.putExtra("name", nameFromDB);
