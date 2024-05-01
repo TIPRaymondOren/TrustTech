@@ -67,6 +67,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
                 android:hint="Enter Fullname"
+                android:textColorHint="@color/white"
                 android:paddingLeft="30dp"
                 android:paddingRight="30dp"
                 app:boxCornerRadiusBottomEnd="15dp"
@@ -77,7 +78,6 @@
                 app:boxStrokeWidthFocused="2dp"
                 app:endIconMode="clear_text"
                 app:endIconTint="@color/white"
-                app:hintTextColor="@color/white"
                 app:startIconDrawable="@drawable/baseline_border_color_24"
                 app:startIconTint="@color/white">
 
@@ -86,6 +86,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/blinker"
+                    android:textColorHint="@color/white"
                     android:inputType="text"
                     android:textColor="@color/white" />
 
@@ -109,7 +110,8 @@
                 app:endIconTint="@color/white"
                 app:hintTextColor="@color/white"
                 app:startIconDrawable="@drawable/baseline_account_box_24"
-                app:startIconTint="@color/white">
+                app:startIconTint="@color/white"
+                android:textColorHint="@color/white">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/usernameTxt"
@@ -127,6 +129,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:hint="Enter Email"
+                android:textColorHint="@color/white"
                 android:paddingLeft="30dp"
                 android:paddingRight="30dp"
                 app:boxCornerRadiusBottomEnd="15dp"
@@ -184,6 +187,7 @@
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
+                android:textColorHint="@color/white"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:hint="Enter Age"
@@ -267,7 +271,8 @@
                 app:endIconTint="@color/white"
                 app:hintTextColor="@color/white"
                 app:startIconDrawable="@drawable/baseline_password_24"
-                app:startIconTint="@color/white">
+                app:startIconTint="@color/white"
+                android:textColorHint="@color/white">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/passwordTxt"
@@ -281,6 +286,7 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:textColorHint="@color/white"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
