@@ -40,7 +40,7 @@
             android:layout_gravity="center"
             android:layout_marginTop="10dp"
             android:fontFamily="@font/blinker"
-            android:text="Bawat araw mas sumasaya pag ika'y kasasama na"
+            android:text="Bawat araw mas sumasaya pag ika'y kasama na"
             android:textAlignment="center"
             android:textColor="@color/black"
             android:textSize="24sp" />
