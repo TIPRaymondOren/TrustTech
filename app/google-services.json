@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "435140131889",
+    "firebase_url": "https://trusttech-291d6-default-rtdb.firebaseio.com",
+    "project_id": "trusttech-291d6",
+    "storage_bucket": "trusttech-291d6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:435140131889:android:1e18aba30fe172be556910",
+        "android_client_info": {
+          "package_name": "com.example.trusttech"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDRGbgywobVa9xonz8tyP0zCWHgVgTX2jE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
