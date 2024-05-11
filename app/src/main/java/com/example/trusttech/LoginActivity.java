@@ -9,6 +9,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
@@ -72,44 +73,45 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
+    private int unsuccessfulAttempts = 0;
+    private long cooldownTime = 10000; // 10 seconds
+    private long lastAttemptTime = 0;
+
     private void PerformLogin() {
-        String user= usertxt.getText().toString();
-        String password= passwordtxt.getText().toString();
+        String user = usertxt.getText().toString();
+        String password = passwordtxt.getText().toString();
 
-        if (user.isEmpty()){
+        if (user.isEmpty()) {
             usertxt.setError("Invalid User");
-
-        }
-        else if(password.isEmpty() || password.length()<8){
+        } else if (password.isEmpty() || password.length() < 8) {
             passwordtxt.setError("Invalid Password");
-        }
-        else {
-
-            //dito sa line na to magreredirect sa profile page, meaning dito mo ilalagay yung OTP palitan mo yung intent.
-            // pero maglagay ka ng function sa OTP.java mo then paste mo si isUser para magcatch ng mga data.
-
-            isUser();
-
+        } else {
+            if (System.currentTimeMillis() - lastAttemptTime < cooldownTime) {
+                // Show a message to the user that they need to wait before trying again
+                Toast.makeText(this, "Please wait before trying again", Toast.LENGTH_SHORT).show();
+            } else {
+                isUser();
+            }
         }
     }
 
-    private void isUser(){
-        final String userEnteredUser= usertxt.getText().toString().trim();
-        final String userEnteredPassword= passwordtxt.getText().toString().trim();
+    private void isUser() {
+        final String userEnteredUser = usertxt.getText().toString().trim();
+        final String userEnteredPassword = passwordtxt.getText().toString().trim();
 
-        DatabaseReference reference= FirebaseDatabase.getInstance().getReference("users");
-        Query checkUser =  reference.orderByChild("username").equalTo(userEnteredUser);
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("users");
+        Query checkUser = reference.orderByChild("username").equalTo(userEnteredUser);
 
         checkUser.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                if(dataSnapshot.exists()){
-
-
+                if (dataSnapshot.exists()) {
                     String passwordFromDB = dataSnapshot.child(userEnteredUser).child("password").getValue(String.class);
 
-                    if(userEnteredPassword.equals(passwordFromDB)){
+                    if (userEnteredPassword.equals(passwordFromDB)) {
+                        // Login successful, reset the counter and timer
+                        unsuccessfulAttempts = 0;
+                        lastAttemptTime = 0;
 
                         String userFromDB = dataSnapshot.child(userEnteredUser).child("username").getValue(String.class);
                         String nameFromDB = dataSnapshot.child(userEnteredUser).child("name").getValue(String.class);
@@ -127,15 +129,32 @@ public class LoginActivity extends AppCompatActivity {
                         intent.putExtra("age", ageFromDB);
 
                         startActivity(intent);
+
+                    } else {
+                        // Increment the counter and update the timer
+                        unsuccessfulAttempts++;
+                        lastAttemptTime = System.currentTimeMillis();
+
+                        if (unsuccessfulAttempts >= 3) {
+                            // Show a message to the user that they need to wait before trying again
+                            Toast.makeText(LoginActivity.this, "Too many unsuccessful password attempts. Login is temporarily blocked.", Toast.LENGTH_SHORT).show();
+                        } else {
+                            passwordtxt.setError("Wrong Password");
+                            passwordtxt.requestFocus();
+                        }
                     }
-                    else{
-                        passwordtxt.setError("Wrong Password");
-                        passwordtxt.requestFocus();
+                } else {
+                    // Increment the counter and update the timer
+                    unsuccessfulAttempts++;
+                    lastAttemptTime = System.currentTimeMillis();
+
+                    if (unsuccessfulAttempts >= 3) {
+                        // Show a message to the user that they need to wait before trying again
+                        Toast.makeText(LoginActivity.this, "Too many unsuccessful username attempts. Login is temporarily blocked.", Toast.LENGTH_SHORT).show();
+                    } else {
+                        usertxt.setError("No such user exist");
+                        usertxt.requestFocus();
                     }
-                }
-                else{
-                    usertxt.setError("No such user exist");
-                    usertxt.requestFocus();
                 }
             }
 
