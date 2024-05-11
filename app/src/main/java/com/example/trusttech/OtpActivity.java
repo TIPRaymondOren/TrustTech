@@ -24,7 +24,6 @@ import com.google.firebase.auth.PhoneAuthProvider;
 
 import java.util.concurrent.TimeUnit;
 
-
 public class OtpActivity extends AppCompatActivity {
 
     PinView otpPin;
@@ -33,7 +32,6 @@ public class OtpActivity extends AppCompatActivity {
 
     ImageView backBtn;
     private FirebaseAuth mAuth;
-
     private static String verificationId;
 
     @Override
@@ -62,6 +60,7 @@ public class OtpActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
         // initializing on click listener
         // for verify otp button
         verify.setOnClickListener(new View.OnClickListener() {
@@ -75,13 +74,11 @@ public class OtpActivity extends AppCompatActivity {
                 } else {
                     // if OTP field is not empty calling
                     // method to verify the OTP.
-                    verifyCode(otpPin.getText().toString());
+                    verifyCode(decrypt(otpPin.getText().toString()));
                 }
             }
         });
     }
-
-
 
     private void sendVerification(String phone) {
         PhoneAuthOptions options =
@@ -128,7 +125,7 @@ public class OtpActivity extends AppCompatActivity {
                 // if the code is not null then
                 // we are setting that code to
                 // our OTP edittext field.
-                otpPin.setText(code);
+                otpPin.setText(encrypt(code));
 
                 // after setting this code
                 // to OTP edittext field we
@@ -146,10 +143,10 @@ public class OtpActivity extends AppCompatActivity {
             Toast.makeText(OtpActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
         }
     };
+
     private void verifyCode(String code) {
         // below line is used for getting
         // credentials from our verification id and code.
-
         PhoneAuthCredential credential = PhoneAuthProvider.getCredential(verificationId, code);
 
         // after getting credential we are
@@ -188,5 +185,29 @@ public class OtpActivity extends AppCompatActivity {
                         }
                     }
                 });
+    }
+
+    // Encryption method using Caesar cipher
+    private String encrypt(String input) {
+        StringBuilder encryptedText = new StringBuilder();
+        for (int i = 0; i < input.length(); i++) {
+            char c = input.charAt(i);
+            // Shift each character by 3 positions
+            char shifted = (char) (c + 3);
+            encryptedText.append(shifted);
+        }
+        return encryptedText.toString();
+    }
+
+    // Decryption method using Caesar cipher
+    private String decrypt(String input) {
+        StringBuilder decryptedText = new StringBuilder();
+        for (int i = 0; i < input.length(); i++) {
+            char c = input.charAt(i);
+            // Shift each character back by 3 positions
+            char shifted = (char) (c - 3);
+            decryptedText.append(shifted);
+        }
+        return decryptedText.toString();
     }
 }
