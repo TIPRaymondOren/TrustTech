@@ -59,7 +59,7 @@ public class AdminOtpActivity extends AppCompatActivity {
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(AdminOtpActivity.this, LoginActivity.class);
+                Intent intent = new Intent(AdminOtpActivity.this, AdminLoginActivity.class);
                 startActivity(intent);
             }
         });
@@ -167,19 +167,8 @@ public class AdminOtpActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // if the code is correct and the task is successful
-                            // we are sending our user to new activity.
-                            String username = getIntent().getStringExtra("username");
-                            String name = getIntent().getStringExtra("name");
-                            String email = getIntent().getStringExtra("email");
-                            String phone = getIntent().getStringExtra("phone");
-                            String age = getIntent().getStringExtra("age");
 
-                            Intent intent = new Intent(AdminOtpActivity.this, ProfileActivity.class);
-                            intent.putExtra("usernameFromLogin", username);
-                            intent.putExtra("nameFromLogin", name);
-                            intent.putExtra("emailFromLogin", email);
-                            intent.putExtra("phoneFromLogin", phone);
-                            intent.putExtra("ageFromLogin", age);
+                            Intent intent = new Intent(AdminOtpActivity.this, AdminPageActivity.class);
                             startActivity(intent);
                             finish();
                         } else {

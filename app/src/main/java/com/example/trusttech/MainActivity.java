@@ -22,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
 
         login = (Button) findViewById(R.id.login_btn);
         signup = (Button) findViewById(R.id.signup_btn);
+        admin = (Button) findViewById(R.id.admin_btn);
 
         login.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -37,6 +38,14 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 //open the signup screen
                 Intent intent = new Intent(MainActivity.this, SignupActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        admin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, AdminLoginActivity.class);
                 startActivity(intent);
             }
         });

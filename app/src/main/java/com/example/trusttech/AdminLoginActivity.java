@@ -9,6 +9,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -17,6 +18,8 @@ import androidx.appcompat.app.AppCompatActivity;
 public class AdminLoginActivity extends AppCompatActivity {
     ImageView backBtn;
     Button button, login;
+
+    TextView message;
 
     EditText usertxt, passwordtxt;
     String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
@@ -37,6 +40,7 @@ public class AdminLoginActivity extends AppCompatActivity {
         passwordtxt= (EditText) findViewById(R.id.passwordTxt);
         login= (Button) findViewById(R.id.loginBtn);
         progressDialog= new ProgressDialog(this);
+        message = findViewById(R.id.message);
 
 
         login.setOnClickListener(new View.OnClickListener() {
@@ -53,6 +57,8 @@ public class AdminLoginActivity extends AppCompatActivity {
                 openMain();
             }
         });
+
+
     }
 
     private int unsuccessfulAttempts = 0;
@@ -70,8 +76,10 @@ public class AdminLoginActivity extends AppCompatActivity {
         } else {
             if (System.currentTimeMillis() - lastAttemptTime < cooldownTime) {
                 // Show a message to the user that they need to wait before trying again
-                Toast.makeText(this, "Please wait before trying again", Toast.LENGTH_SHORT).show();
-            } else {
+                Toast.makeText(this, "Please wait 10 seconds before trying again", Toast.LENGTH_SHORT).show();
+            } else if (unsuccessfulAttempts >= 3){
+                Toast.makeText(this, "Login is disabled", Toast.LENGTH_SHORT).show();
+            }else {
                 isUser();
             }
         }
@@ -82,13 +90,15 @@ public class AdminLoginActivity extends AppCompatActivity {
         final String userEnteredPassword = passwordtxt.getText().toString().trim();
         String hardcodedUsername = "trust_admin";
         String hardcodedPassword = "7ru$t@dM1n!";
+        String hardcodedPhone = "+639214160248";
 
         if (userEnteredUser.equals(hardcodedUsername) && userEnteredPassword.equals(hardcodedPassword)) {
             // Login successful, reset the counter and timer
             unsuccessfulAttempts = 0;
             lastAttemptTime = 0;
 
-            Intent intent = new Intent(getApplicationContext(), OtpActivity.class);
+            Intent intent = new Intent(getApplicationContext(), AdminOtpActivity.class);
+            intent.putExtra("phone", hardcodedPhone);
             startActivity(intent);
         } else {
             // Increment the counter and update the timer
@@ -97,7 +107,8 @@ public class AdminLoginActivity extends AppCompatActivity {
 
             if (unsuccessfulAttempts >= 3) {
                 // Show a message to the user that they need to wait before trying again
-                Toast.makeText(AdminLoginActivity.this, "Too many unsuccessful attempts. Login is temporarily blocked.", Toast.LENGTH_SHORT).show();
+                message.setVisibility(View.VISIBLE);
+
             } else {
                 if (!userEnteredUser.equals(hardcodedUsername)) {
                     usertxt.setError("Invalid Username");

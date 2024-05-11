@@ -9,6 +9,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -28,7 +29,7 @@ import com.google.firebase.database.ValueEventListener;
 public class LoginActivity extends AppCompatActivity {
     ImageView backBtn;
     Button button, login;
-
+    TextView message;
     EditText usertxt, passwordtxt;
     String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
     ProgressDialog progressDialog;
@@ -48,7 +49,7 @@ public class LoginActivity extends AppCompatActivity {
         passwordtxt= (EditText) findViewById(R.id.passwordTxt);
         login= (Button) findViewById(R.id.loginBtn);
         progressDialog= new ProgressDialog(this);
-
+        message = findViewById(R.id.message);
 
         login.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -89,6 +90,8 @@ public class LoginActivity extends AppCompatActivity {
             if (System.currentTimeMillis() - lastAttemptTime < cooldownTime) {
                 // Show a message to the user that they need to wait before trying again
                 Toast.makeText(this, "Please wait before trying again", Toast.LENGTH_SHORT).show();
+            }else if (unsuccessfulAttempts >= 3){
+                Toast.makeText(this, "Login is disabled", Toast.LENGTH_SHORT).show();
             } else {
                 isUser();
             }
@@ -137,7 +140,7 @@ public class LoginActivity extends AppCompatActivity {
 
                         if (unsuccessfulAttempts >= 3) {
                             // Show a message to the user that they need to wait before trying again
-                            Toast.makeText(LoginActivity.this, "Too many unsuccessful password attempts. Login is temporarily blocked.", Toast.LENGTH_SHORT).show();
+                            message.setVisibility(View.VISIBLE);
                         } else {
                             passwordtxt.setError("Wrong Password");
                             passwordtxt.requestFocus();
