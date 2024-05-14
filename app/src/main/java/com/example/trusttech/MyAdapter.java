@@ -22,7 +22,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.ArrayList;
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
-
+    private static final int SHIFT = 3;
     Context context;
     ArrayList<userHelperClass> list;
 
@@ -41,11 +41,11 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, @SuppressLint("RecyclerView") final int position) {
         final userHelperClass user = list.get(position);
-        holder.userName.setText(user.getUsername());
-        holder.fullName.setText(user.getName());
-        holder.age.setText(user.getAge());
-        holder.emailAddress.setText(user.getEmail());
-        holder.phoneNo.setText(user.getPhone());
+        holder.userName.setText(decrypt(user.getUsername()));
+        holder.fullName.setText(decrypt(user.getName()));
+        holder.age.setText(decrypt(user.getAge()));
+        holder.emailAddress.setText(decrypt(user.getEmail()));
+        holder.phoneNo.setText(user.getPhone()); // Phone numbers are not encrypted
 
         holder.deleteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,6 +73,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
             }
         });
     }
+
 
     private void deleteItem(final int position) {
         try {
@@ -117,5 +118,15 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
             phoneNo = itemView.findViewById(R.id.showPhoneNo);
             deleteBtn = itemView.findViewById(R.id.deleteButton);
         }
+    }
+    //decryption
+    private String decrypt(String input) {
+        StringBuilder decryptedText = new StringBuilder();
+        for (int i = 0; i < input.length(); i++) {
+            char c = input.charAt(i);
+            char shifted = (char) (c - SHIFT);
+            decryptedText.append(shifted);
+        }
+        return decryptedText.toString();
     }
 }

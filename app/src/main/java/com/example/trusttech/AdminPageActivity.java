@@ -20,6 +20,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+
 import java.util.ArrayList;
 
 public class AdminPageActivity extends AppCompatActivity {
@@ -31,7 +32,6 @@ public class AdminPageActivity extends AppCompatActivity {
     ImageView logout;
 
     AlertDialog.Builder builder;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,40 +45,45 @@ public class AdminPageActivity extends AppCompatActivity {
         builder = new AlertDialog.Builder(this);
 
         list = new ArrayList<>();
-        myAdapter = new MyAdapter(this, list);
+        myAdapter = new MyAdapter(this,list);
         recyclerView.setAdapter(myAdapter);
 
-        // Fetch data from db then list using RecyclerView
+        // fetch data from db then list using recyclerview
         database.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+
                 list.clear(); // Clear the list before adding new data to avoid duplicates when deleting data
 
-                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()){
                     userHelperClass user = dataSnapshot.getValue(userHelperClass.class);
-                    if (user != null) {
-                        // Decrypt fields
-                        user.setName(decrypt(user.getName()));
-                        user.setEmail(decrypt(user.getEmail()));
-                        list.add(user);
-                    }
+                     list.add(user);
                 }
                 // Verify if data is fetched correctly by logging the size of the list
                 Log.d("DataFetch", "List size after fetching data: " + list.size());
-                myAdapter.notifyDataSetChanged();
+//                myAdapter.notifyDataSetChanged();
+                populateList();
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 Log.e("DataFetch", "Failed to fetch data from database: " + error.getMessage());
             }
+
+            // Call the method to populate the list
+// Method to populate the list
+            private void populateList() {
+                myAdapter.notifyDataSetChanged();
+            }
+
+
         });
 
-        // Logout
+        //logout?
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Setting the title and message
+
+                //Setting the title and message
                 builder.setTitle("Logout Confirmation");
                 builder.setMessage("Are you sure you want to logout?")
                         .setCancelable(false)
@@ -87,33 +92,25 @@ public class AdminPageActivity extends AppCompatActivity {
                                 finish();
                                 Intent intent = new Intent(AdminPageActivity.this, MainActivity.class);
                                 startActivity(intent);
-                                Toast.makeText(getApplicationContext(), "Logged out successfully",
+                                Toast.makeText(getApplicationContext(),"Logged out successfully",
                                         Toast.LENGTH_SHORT).show();
                             }
                         })
                         .setNegativeButton("No", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
-                                // Action for 'NO' Button
+                                //  Action for 'NO' Button
                                 dialog.cancel();
-                                Toast.makeText(getApplicationContext(), "Logout cancelled",
+                                Toast.makeText(getApplicationContext(),"Logout cancelled",
                                         Toast.LENGTH_SHORT).show();
                             }
                         });
-                // Creating dialog box
+                //Creating dialog box
                 AlertDialog alert = builder.create();
                 alert.show();
             }
         });
+
     }
 
-    // Method to decrypt a string using Caesar cipher with a shift of 3
-    private String decrypt(String input) {
-        StringBuilder decryptedText = new StringBuilder();
-        for (int i = 0; i < input.length(); i++) {
-            char c = input.charAt(i);
-            char shifted = (char) (c - 3); // Caesar cipher with a shift of 3
-            decryptedText.append(shifted);
-        }
-        return decryptedText.toString();
-    }
+
 }
