@@ -50,42 +50,53 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         holder.deleteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                builder.setTitle("User Removal Confirmation");
-                builder.setMessage("Are you sure you want to remove this user?")
-                        .setCancelable(false)
-                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                deleteItem(position);
-                            }
-                        })
-                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                dialog.cancel();
-                                Toast.makeText(context, "Removal cancelled", Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                AlertDialog alert = builder.create();
-                alert.show();
+                int position = holder.getAdapterPosition(); // Get the current position
+                if (position != RecyclerView.NO_POSITION) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    builder.setTitle("User Removal Confirmation");
+                    builder.setMessage("Are you sure you want to remove this user?")
+                            .setCancelable(false)
+                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    deleteItem(position); // Pass the current position
+                                }
+                            })
+                            .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    dialog.cancel();
+                                    Toast.makeText(context, "Removal cancelled", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                    AlertDialog alert = builder.create();
+                    alert.show();
+                }
             }
         });
     }
 
-    private void deleteItem(@SuppressLint("RecyclerView") final int position) {
-        String username = list.get(position).getUsername();
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("users");
-        reference.child(username).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                if (task.isSuccessful()) {
-                    list.remove(position);
-                    notifyItemRemoved(position);
-                    Toast.makeText(context, "User removed successfully", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(context, "Failed to remove user", Toast.LENGTH_SHORT).show();
+    private void deleteItem(final int position) {
+        try {
+            String username = list.get(position).getUsername();
+            DatabaseReference reference = FirebaseDatabase.getInstance().getReference("users");
+            reference.child(username).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    if (task.isSuccessful()) {
+                        try {
+                            list.remove(position);
+                            notifyItemRemoved(getItemCount());
+                            Toast.makeText(context, "User removed successfully", Toast.LENGTH_SHORT).show();
+                        } catch (IndexOutOfBoundsException e) {
+                            e.printStackTrace();
+                        }
+                    } else {
+                        Toast.makeText(context, "Failed to remove user", Toast.LENGTH_SHORT).show();
+                    }
                 }
-            }
-        });
+            });
+        } catch (IndexOutOfBoundsException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

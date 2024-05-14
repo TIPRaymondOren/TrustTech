@@ -60,13 +60,85 @@ public class SignupActivity extends AppCompatActivity {
                 String name = encrypt(nameTxt.getText().toString());
                 String username = encrypt(usernameTxt.getText().toString());
                 String email = encrypt(emailTxt.getText().toString());
-                String rawPhone = encrypt(phoneTxt.getText().toString());
+                String rawPhone = phoneTxt.getText().toString();
                 String age = encrypt(ageTxt.getText().toString());
                 String password = encrypt(passwordTxt.getText().toString());
                 String confirm_password = encrypt(confirm_passwordTxt.getText().toString());
 
+                // Validate name
+                if (name.isEmpty()) {
+                    nameTxt.setError("Name is required");
+                    nameTxt.requestFocus();
+                    return;
+                }
+
+                // Validate username
+                if (username.isEmpty()) {
+                    usernameTxt.setError("Username is required");
+                    usernameTxt.requestFocus();
+                    return;
+                }
+
+                // Validate email
+                if (email.isEmpty()) {
+                    emailTxt.setError("Email is required");
+                    emailTxt.requestFocus();
+                    return;
+                } else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                    emailTxt.setError("Invalid email address");
+                    emailTxt.requestFocus();
+                    return;
+                }
+
+                // Validate phone number
+                if (rawPhone.isEmpty()) {
+                    phoneTxt.setError("Phone number is required");
+                    phoneTxt.requestFocus();
+                    return;
+                } else if (!android.util.Patterns.PHONE.matcher(rawPhone).matches()) {
+                    phoneTxt.setError("Invalid phone number");
+                    phoneTxt.requestFocus();
+                    return;
+                }
+
+                // Validate age
+                if (age.isEmpty()) {
+                    ageTxt.setError("Age is required");
+                    ageTxt.requestFocus();
+                    return;
+                }
+
+
+                // Validate password
+                if (password.isEmpty()) {
+                    passwordTxt.setError("Password is required");
+                    passwordTxt.requestFocus();
+                    return;
+                } else if (password.length() < 8) {
+                    passwordTxt.setError("Password must be at least 8 characters long");
+                    passwordTxt.requestFocus();
+                    return;
+                } else if (!password.matches("^(?=.*[0-9])(?=.*[A-Z])(?=.*[!@#$%^&*+=])(?=\\S+$).{8,}$")) {
+                    passwordTxt.setError("Password must contain at least one number, one uppercase letter, and one special character");
+                    passwordTxt.requestFocus();
+                    return;
+                }
+                // Validate confirm password
+                if (confirm_password.isEmpty()) {
+                    confirm_passwordTxt.setError("Confirm Password is required");
+                    confirm_passwordTxt.requestFocus();
+                    return;
+                } else if (!confirm_password.equals(password)) {
+                    confirm_passwordTxt.setError("Passwords do not match");
+                    confirm_passwordTxt.requestFocus();
+                    return;
+                }
+
+                //add country code
+                String phone = "+63" + rawPhone;
+
                 // Create userHelperClass instance with encrypted data
-                userHelperClass helperClass = new userHelperClass(name, username, email, rawPhone, age, password, confirm_password);
+                userHelperClass helperClass = new userHelperClass(name, username, email, phone, age, password, confirm_password);
 
                 // Store encrypted data in the database
                 reference.child(username).setValue(helperClass);
