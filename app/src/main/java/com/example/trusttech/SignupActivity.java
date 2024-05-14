@@ -17,7 +17,6 @@ public class SignupActivity extends AppCompatActivity {
     Button login, signup;
     ImageView backBtn;
     EditText nameTxt, usernameTxt, emailTxt, phoneTxt, ageTxt, passwordTxt, confirm_passwordTxt;
-    String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
 
     FirebaseDatabase rootNode;
     DatabaseReference reference;
@@ -57,13 +56,13 @@ public class SignupActivity extends AppCompatActivity {
                 reference = rootNode.getReference("users");
 
                 // Get all the values
-                String name = encrypt(nameTxt.getText().toString());
-                String username = encrypt(usernameTxt.getText().toString());
-                String email = encrypt(emailTxt.getText().toString());
-                String rawPhone = phoneTxt.getText().toString();
-                String age = encrypt(ageTxt.getText().toString());
-                String password = encrypt(passwordTxt.getText().toString());
-                String confirm_password = encrypt(confirm_passwordTxt.getText().toString());
+                String name = nameTxt.getText().toString();
+                String username = usernameTxt.getText().toString();
+                String email = emailTxt.getText().toString();
+                String rawPhone = phoneTxt.getText().toString();  // Do not encrypt the phone number
+                String age = ageTxt.getText().toString();
+                String password = passwordTxt.getText().toString();
+                String confirm_password = confirm_passwordTxt.getText().toString();
 
                 // Validate name
                 if (name.isEmpty()) {
@@ -108,7 +107,6 @@ public class SignupActivity extends AppCompatActivity {
                     return;
                 }
 
-
                 // Validate password
                 if (password.isEmpty()) {
                     passwordTxt.setError("Password is required");
@@ -123,6 +121,7 @@ public class SignupActivity extends AppCompatActivity {
                     passwordTxt.requestFocus();
                     return;
                 }
+
                 // Validate confirm password
                 if (confirm_password.isEmpty()) {
                     confirm_passwordTxt.setError("Confirm Password is required");
@@ -134,11 +133,19 @@ public class SignupActivity extends AppCompatActivity {
                     return;
                 }
 
-                //add country code
+                // Encrypt data
+                String encryptedName = encrypt(name);
+                String encryptedUsername = encrypt(username);
+                String encryptedEmail = encrypt(email);
+                String encryptedAge = encrypt(age);
+                String encryptedPassword = encrypt(password);
+                String encryptedConfirmPassword = encrypt(confirm_password);
+
+                // Add country code to phone number
                 String phone = "+63" + rawPhone;
 
                 // Create userHelperClass instance with encrypted data
-                userHelperClass helperClass = new userHelperClass(name, username, email, phone, age, password, confirm_password);
+                userHelperClass helperClass = new userHelperClass(encryptedName, encryptedUsername, encryptedEmail, phone, encryptedAge, encryptedPassword, encryptedConfirmPassword);
 
                 // Store encrypted data in the database
                 reference.child(username).setValue(helperClass);
