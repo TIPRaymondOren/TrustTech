@@ -33,8 +33,8 @@ public class ProfileDashboardActivity extends AppCompatActivity {
 
         // Initialize profile information
         profilePicture = findViewById(R.id.profile_picture);
-        name = findViewById(R.id.name);
-        email = findViewById(R.id.email);
+        name = findViewById(R.id.textviewname);
+        email = findViewById(R.id.textviewemail);
 
         // Initialize buttons
         btnUpdateProfile = findViewById(R.id.btn_update_profile);
@@ -42,6 +42,14 @@ public class ProfileDashboardActivity extends AppCompatActivity {
         btnAboutApp = findViewById(R.id.btn_about_app);
         btnTermsConditions = findViewById(R.id.btn_terms_conditions);
         btnPrivacyPolicy = findViewById(R.id.btn_privacy_policy);
+
+        // Fetch name and email from login activity
+        String nameFromLogin = getIntent().getStringExtra("nameFromLogin");
+        String emailFromLogin = getIntent().getStringExtra("emailFromLogin");
+
+        // Set the fetched name and email to the corresponding views
+        name.setText(nameFromLogin);
+        email.setText(emailFromLogin);
 
         // Set click listeners for buttons
         btnUpdateProfile.setOnClickListener(new View.OnClickListener() {
