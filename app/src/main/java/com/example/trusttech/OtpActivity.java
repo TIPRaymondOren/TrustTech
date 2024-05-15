@@ -170,7 +170,7 @@ public class OtpActivity extends AppCompatActivity {
                             String phone = getIntent().getStringExtra("phone");
                             String age = getIntent().getStringExtra("age");
 
-                            Intent intent = new Intent(OtpActivity.this, ProfileActivity.class);
+                            Intent intent = new Intent(OtpActivity.this, ProfileDashboardActivity.class);
                             intent.putExtra("usernameFromLogin", username);
                             intent.putExtra("nameFromLogin", name);
                             intent.putExtra("emailFromLogin", email);

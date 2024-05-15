@@ -85,7 +85,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
                     if (task.isSuccessful()) {
                         try {
                             list.remove(position);
-                            notifyItemRemoved(getItemCount());
+                            notifyItemRemoved((position));
                             Toast.makeText(context, "User removed successfully", Toast.LENGTH_SHORT).show();
                         } catch (IndexOutOfBoundsException e) {
                             e.printStackTrace();

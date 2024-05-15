@@ -119,29 +119,7 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
-        <RelativeLayout
-            android:id="@+id/forget_password_block"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingLeft="30dp"
-            android:paddingRight="30dp"
-            android:layout_marginTop="10dp">
 
-
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:padding="1dp"
-                android:background="#00000000"
-                android:onClick="callForgetPassword"
-                android:textColor="@color/white"
-                android:fontFamily="@font/blinker"
-                android:text="Forgot Password" />
-
-        </RelativeLayout>
 
         <Button
             android:id="@+id/loginBtn"
