@@ -1,6 +1,8 @@
 package com.example.trusttech;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -31,7 +33,7 @@ public class UpdateProfileActivity extends AppCompatActivity {
         emailTxt = findViewById(R.id.emailTxt);
         phoneTxt = findViewById(R.id.phoneTxt);
         ageTxt = findViewById(R.id.ageTxt);
-        updateBtn = findViewById(R.id.updateBtn);
+        updateBtn = findViewById(R.id.btn_update_profile);
 
         // TODO: Retrieve the current user's profile information from the database
         // and pre-fill the EditText fields.
