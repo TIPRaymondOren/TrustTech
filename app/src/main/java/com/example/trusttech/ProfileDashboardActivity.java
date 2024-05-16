@@ -15,10 +15,12 @@ public class ProfileDashboardActivity extends AppCompatActivity {
     private TextView name;
     private TextView email;
     private ImageView btnUpdateProfile;
-    private ImageView btnChangePassword;
+    private ImageView btnBestPractices;
     private ImageView btnAboutApp;
     private ImageView btnTermsConditions;
     private ImageView btnPrivacyPolicy;
+
+    private static final int SHIFT = 3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,16 +40,20 @@ public class ProfileDashboardActivity extends AppCompatActivity {
 
         // Initialize buttons
         btnUpdateProfile = findViewById(R.id.btn_update_profile);
-        btnChangePassword = findViewById(R.id.btn_change_password);
+        btnBestPractices = findViewById(R.id.btnBestPractices);
         btnAboutApp = findViewById(R.id.btn_about_app);
         btnTermsConditions = findViewById(R.id.btn_terms_conditions);
         btnPrivacyPolicy = findViewById(R.id.btn_privacy_policy);
 
         // Fetch name and email from login activity
-        String nameFromLogin = getIntent().getStringExtra("nameFromLogin");
-        String emailFromLogin = getIntent().getStringExtra("emailFromLogin");
+        String encryptedNameFromLogin = getIntent().getStringExtra("nameFromLogin");
+        String encryptedEmailFromLogin = getIntent().getStringExtra("emailFromLogin");
 
-        // Set the fetched name and email to the corresponding views
+        // Decrypt the fetched name and email
+        String nameFromLogin = decrypt(encryptedNameFromLogin);
+        String emailFromLogin = decrypt(encryptedEmailFromLogin);
+
+        // Set the decrypted name and email to the corresponding views
         name.setText(nameFromLogin);
         email.setText(emailFromLogin);
 
@@ -60,10 +66,10 @@ public class ProfileDashboardActivity extends AppCompatActivity {
             }
         });
 
-        btnChangePassword.setOnClickListener(new View.OnClickListener() {
+        btnBestPractices.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), ChangePasswordActivity.class);
+                Intent intent = new Intent(getApplicationContext(), BestPracticesActivity.class);
                 startActivity(intent);
             }
         });
@@ -91,5 +97,16 @@ public class ProfileDashboardActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    // Decryption function
+    private String decrypt(String input) {
+        StringBuilder decryptedText = new StringBuilder();
+        for (int i = 0; i < input.length(); i++) {
+            char c = input.charAt(i);
+            char shifted = (char) (c - SHIFT);
+            decryptedText.append(shifted);
+        }
+        return decryptedText.toString();
     }
 }
