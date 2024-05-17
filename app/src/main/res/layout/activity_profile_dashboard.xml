@@ -65,6 +65,7 @@
                 android:id="@+id/textviewemail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:text="Email"
                 android:textSize="16sp"
                 android:layout_gravity="center" />

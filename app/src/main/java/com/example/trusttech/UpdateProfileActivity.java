@@ -1,27 +1,25 @@
 package com.example.trusttech;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 public class UpdateProfileActivity extends AppCompatActivity {
 
-    private EditText nameTxt, usernameTxt, emailTxt, phoneTxt, ageTxt, passwordTxt;
-    private Button updateBtn;
-    private FirebaseAuth mAuth;
-    private DatabaseReference mDatabase;
+    Button update;
+    ImageView backBtn;
+    EditText nameTxt, usernameTxt, emailTxt, phoneTxt, ageTxt, passwordTxt, confirm_passwordTxt;
+
+    FirebaseDatabase rootNode;
+    DatabaseReference reference;
     private static final int SHIFT = 3;
 
     @Override
@@ -29,73 +27,131 @@ public class UpdateProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_update_profile);
 
-
-        mAuth = FirebaseAuth.getInstance();
-        mDatabase = FirebaseDatabase.getInstance().getReference();
-
+        // Hooks for update_profile
+        backBtn = findViewById(R.id.backBtn);
+        update = findViewById(R.id.btn_update_profile);
         nameTxt = findViewById(R.id.nameTxt);
         usernameTxt = findViewById(R.id.usernameTxt);
         emailTxt = findViewById(R.id.emailTxt);
         phoneTxt = findViewById(R.id.phoneTxt);
         ageTxt = findViewById(R.id.ageTxt);
         passwordTxt = findViewById(R.id.passwordTxt);
-        updateBtn = findViewById(R.id.btn_update_profile);
+        confirm_passwordTxt = findViewById(R.id.confirm_passwordTxt);
 
-        // Retrieve the current user's profile information from the database
-        // and pre-fill the EditText fields.
-        String userId = mAuth.getCurrentUser().getUid();
-        DatabaseReference userRef = mDatabase.child("users").child(userId);
+        FirebaseApp.initializeApp(this);
 
-        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+        backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                String encryptedName = dataSnapshot.child("name").getValue(String.class);
-                String encryptedUsername = dataSnapshot.child("username").getValue(String.class);
-                String encryptedEmail = dataSnapshot.child("email").getValue(String.class);
-                String phoneNumber = dataSnapshot.child("phoneNumber").getValue(String.class);
-                String encryptedAge = dataSnapshot.child("age").getValue(String.class);
-
-                // Decrypt the fetched data
-                String name = decrypt(encryptedName);
-                String username = decrypt(encryptedUsername);
-                String email = decrypt(encryptedEmail);
-                String age = decrypt(encryptedAge);
-
-                nameTxt.setText(name);
-                usernameTxt.setText(username);
-                emailTxt.setText(email);
-                phoneTxt.setText(phoneNumber);
-                ageTxt.setText(age);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError error) {
-                Toast.makeText(UpdateProfileActivity.this, "Failed to load profile", Toast.LENGTH_SHORT).show();
+            public void onClick(View view) {
+                Intent intent = new Intent(UpdateProfileActivity.this, MainActivity.class);
+                startActivity(intent);
             }
         });
 
-        updateBtn.setOnClickListener(new View.OnClickListener() {
+        update.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                String userId = mAuth.getCurrentUser().getUid();
+            public void onClick(View view) {
+                rootNode = FirebaseDatabase.getInstance();
+                reference = rootNode.getReference("users");
+
+                // Get all the values
                 String name = nameTxt.getText().toString();
                 String username = usernameTxt.getText().toString();
                 String email = emailTxt.getText().toString();
                 String rawPhone = phoneTxt.getText().toString();  // Do not encrypt the phone number
                 String age = ageTxt.getText().toString();
                 String password = passwordTxt.getText().toString();
+                String confirm_password = confirm_passwordTxt.getText().toString();
+
+                // Validate name
+                if (name.isEmpty()) {
+                    nameTxt.setError("Name is required");
+                    nameTxt.requestFocus();
+                    return;
+                }
+
+                // Validate username
+                if (username.isEmpty()) {
+                    usernameTxt.setError("Username is required");
+                    usernameTxt.requestFocus();
+                    return;
+                }
+
+                // Validate email
+                if (email.isEmpty()) {
+                    emailTxt.setError("Email is required");
+                    emailTxt.requestFocus();
+                    return;
+                } else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                    emailTxt.setError("Invalid email address");
+                    emailTxt.requestFocus();
+                    return;
+                }
+
+                // Validate phone number
+                if (rawPhone.isEmpty()) {
+                    phoneTxt.setError("Phone number is required");
+                    phoneTxt.requestFocus();
+                    return;
+                } else if (!android.util.Patterns.PHONE.matcher(rawPhone).matches()) {
+                    phoneTxt.setError("Invalid phone number");
+                    phoneTxt.requestFocus();
+                    return;
+                }
+
+                // Validate age
+                if (age.isEmpty()) {
+                    ageTxt.setError("Age is required");
+                    ageTxt.requestFocus();
+                    return;
+                }
+
+                // Validate password
+                if (password.isEmpty()) {
+                    passwordTxt.setError("Password is required");
+                    passwordTxt.requestFocus();
+                    return;
+                } else if (password.length() < 8) {
+                    passwordTxt.setError("Password must be at least 8 characters long");
+                    passwordTxt.requestFocus();
+                    return;
+                } else if (!password.matches("^(?=.*[0-9])(?=.*[A-Z])(?=.*[!@#$%^&*+=])(?=\\S+$).{8,}$")) {
+                    passwordTxt.setError("Password must contain at least one number, one uppercase letter, and one special character");
+                    passwordTxt.requestFocus();
+                    return;
+                }
+
+                // Validate confirm password
+                if (confirm_password.isEmpty()) {
+                    confirm_passwordTxt.setError("Confirm Password is required");
+                    confirm_passwordTxt.requestFocus();
+                    return;
+                } else if (!confirm_password.equals(password)) {
+                    confirm_passwordTxt.setError("Passwords do not match");
+                    confirm_passwordTxt.requestFocus();
+                    return;
+                }
 
                 // Encrypt data
                 String encryptedName = encrypt(name);
                 String encryptedUsername = encrypt(username);
                 String encryptedEmail = encrypt(email);
                 String encryptedAge = encrypt(age);
+                String encryptedPassword = encrypt(password);
+                String encryptedConfirmPassword = encrypt(confirm_password);
 
                 // Add country code to phone number
                 String phone = "+63" + rawPhone;
 
-                updateProfile(userId, encryptedName, encryptedUsername, encryptedEmail, phone, encryptedAge);
-                updatePassword(password);
+                // Create userHelperClass instance with encrypted data
+                userHelperClass helperClass = new userHelperClass(encryptedName, encryptedUsername, encryptedEmail, phone, encryptedAge, encryptedPassword, encryptedConfirmPassword);
+
+                // Store encrypted data in the database
+                reference.child(username).setValue(helperClass);
+
+                Toast.makeText(UpdateProfileActivity.this, "Profile Updated", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(UpdateProfileActivity.this, MainActivity.class);
+                startActivity(intent);
             }
         });
     }
@@ -120,32 +176,5 @@ public class UpdateProfileActivity extends AppCompatActivity {
             decryptedText.append(shifted);
         }
         return decryptedText.toString();
-    }
-
-    // Update profile method
-    private void updateProfile(String userId, String name, String username, String email, String phoneNumber, String age) {
-        DatabaseReference userRef = mDatabase.child("users").child(userId);
-
-        userRef.child("name").setValue(name);
-        userRef.child("username").setValue(username);
-        userRef.child("email").setValue(email);
-        userRef.child("phoneNumber").setValue(phoneNumber);
-        userRef.child("age").setValue(age);
-
-        Toast.makeText(UpdateProfileActivity.this, "Profile Updated Successfully", Toast.LENGTH_SHORT).show();
-    }
-
-    // Update password method
-    private void updatePassword(String newPassword) {
-        FirebaseUser user = mAuth.getCurrentUser();
-
-        user.updatePassword(newPassword)
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        Toast.makeText(UpdateProfileActivity.this, "Password Updated Successfully", Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(UpdateProfileActivity.this, "Failed to Update Password", Toast.LENGTH_SHORT).show();
-                    }
-                });
     }
 }
