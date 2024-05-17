@@ -61,7 +61,18 @@ public class ProfileDashboardActivity extends AppCompatActivity {
         btnUpdateProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), UpdateProfileActivity.class);
+                String username = getIntent().getStringExtra("usernameFromLogin");
+                String name = getIntent().getStringExtra("nameFromLogin");
+                String email = getIntent().getStringExtra("emailFromLogin");
+                String phone = getIntent().getStringExtra("phoneFromLogin");
+                String age = getIntent().getStringExtra("ageFromLogin");
+
+                Intent intent = new Intent(ProfileDashboardActivity.this, UpdateProfileActivity.class);
+                intent.putExtra("usernameFromDashboard", username);
+                intent.putExtra("nameFromDashboard", name);
+                intent.putExtra("emailFromDashboard", email);
+                intent.putExtra("phoneFromDashboard", phone);
+                intent.putExtra("ageFromDashboard", age);
                 startActivity(intent);
             }
         });
