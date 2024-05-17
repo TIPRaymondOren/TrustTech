@@ -61,7 +61,7 @@ public class AdminPageActivity extends AppCompatActivity {
                 }
                 // Verify if data is fetched correctly by logging the size of the list
                 Log.d("DataFetch", "List size after fetching data: " + list.size());
-//                myAdapter.notifyDataSetChanged();
+//                     myAdapter.notifyDataSetChanged();
                 populateList();
             }
             @Override

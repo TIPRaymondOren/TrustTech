@@ -59,7 +59,7 @@ public class UpdateProfileActivity extends AppCompatActivity {
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(UpdateProfileActivity.this, MainActivity.class);
+                Intent intent = new Intent(UpdateProfileActivity.this, ProfileDashboardActivity.class);
                 startActivity(intent);
             }
         });
@@ -178,7 +178,7 @@ public class UpdateProfileActivity extends AppCompatActivity {
                 reference.child(username).setValue(helperClass);
 
                 Toast.makeText(UpdateProfileActivity.this, "Profile Updated", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(UpdateProfileActivity.this, MainActivity.class);
+                Intent intent = new Intent(UpdateProfileActivity.this, ProfileDashboardActivity.class);
                 startActivity(intent);
             }
         });

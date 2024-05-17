@@ -78,18 +78,15 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     private void deleteItem(final int position) {
         try {
             String username = list.get(position).getUsername();
-            DatabaseReference reference = FirebaseDatabase.getInstance().getReference("users");
-            reference.child(username).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+            DatabaseReference reference = FirebaseDatabase.getInstance().getReference("users").child(username);
+            reference.removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
                     if (task.isSuccessful()) {
-                        try {
-                            list.remove(position);
-                            notifyItemRemoved((position));
-                            Toast.makeText(context, "User removed successfully", Toast.LENGTH_SHORT).show();
-                        } catch (IndexOutOfBoundsException e) {
-                            e.printStackTrace();
-                        }
+                        list.remove(position);
+                        notifyItemRemoved(position);
+                        notifyItemRangeChanged(position, 1);
+                        Toast.makeText(context, "User removed successfully", Toast.LENGTH_SHORT).show();
                     } else {
                         Toast.makeText(context, "Failed to remove user", Toast.LENGTH_SHORT).show();
                     }
@@ -99,6 +96,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
             e.printStackTrace();
         }
     }
+
 
     @Override
     public int getItemCount() {

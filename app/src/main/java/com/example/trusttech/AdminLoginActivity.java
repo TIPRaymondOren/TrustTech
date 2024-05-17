@@ -89,8 +89,8 @@ public class AdminLoginActivity extends AppCompatActivity {
         final String userEnteredUser = usertxt.getText().toString().trim();
         final String userEnteredPassword = passwordtxt.getText().toString().trim();
         String hardcodedUsername = "trust_admin";
-        String hardcodedPassword = "7ru$t@dM1n!";
-        String hardcodedPhone = "+639214160248";
+        String hardcodedPassword = "Tru$t@dM1n!";
+        String hardcodedPhone = "+639564931049";
 
         if (userEnteredUser.equals(hardcodedUsername) && userEnteredPassword.equals(hardcodedPassword)) {
             // Login successful, reset the counter and timer
