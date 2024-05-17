@@ -16,7 +16,7 @@ public class UpdateProfileActivity extends AppCompatActivity {
 
     Button update;
     ImageView backBtn;
-    EditText nameTxt, usernameTxt, emailTxt, phoneTxt, ageTxt, passwordTxt, confirm_passwordTxt;
+    EditText nameTxt, usernameTxt, emailTxt, phoneTxt, ageTxt, oldPasswordTxt, newPasswordTxt, confirmNewPasswordTxt;
 
     FirebaseDatabase rootNode;
     DatabaseReference reference;
@@ -35,8 +35,24 @@ public class UpdateProfileActivity extends AppCompatActivity {
         emailTxt = findViewById(R.id.emailTxt);
         phoneTxt = findViewById(R.id.phoneTxt);
         ageTxt = findViewById(R.id.ageTxt);
-        passwordTxt = findViewById(R.id.passwordTxt);
-        confirm_passwordTxt = findViewById(R.id.confirm_passwordTxt);
+        oldPasswordTxt = findViewById(R.id.old_passwordTxt);
+        newPasswordTxt = findViewById(R.id.new_passwordTxt);
+        confirmNewPasswordTxt = findViewById(R.id.confirm_new_passwordTxt);
+
+        // Get the Strings from the intent
+        String username = getIntent().getStringExtra("usernameFromDashboard");
+        String name = decrypt(getIntent().getStringExtra("nameFromDashboard"));
+        String email = decrypt(getIntent().getStringExtra("emailFromDashboard"));
+        String phone = getIntent().getStringExtra("phoneFromDashboard");
+        String age = decrypt(getIntent().getStringExtra("ageFromDashboard"));
+        String oldPassword = decrypt(getIntent().getStringExtra("passwordFromDashboard"));
+
+        usernameTxt.setText(username);
+        nameTxt.setText(name);
+        emailTxt.setText(email);
+        phoneTxt.setText(phone);
+        ageTxt.setText(age);
+        oldPasswordTxt.setText(oldPassword);
 
         FirebaseApp.initializeApp(this);
 
@@ -60,8 +76,9 @@ public class UpdateProfileActivity extends AppCompatActivity {
                 String email = emailTxt.getText().toString();
                 String rawPhone = phoneTxt.getText().toString();  // Do not encrypt the phone number
                 String age = ageTxt.getText().toString();
-                String password = passwordTxt.getText().toString();
-                String confirm_password = confirm_passwordTxt.getText().toString();
+                String old_password = oldPasswordTxt.getText().toString();
+                String new_password = newPasswordTxt.getText().toString();
+                String confirm_new_password = confirmNewPasswordTxt.getText().toString();
 
                 // Validate name
                 if (name.isEmpty()) {
@@ -107,29 +124,25 @@ public class UpdateProfileActivity extends AppCompatActivity {
                 }
 
                 // Validate password
-                if (password.isEmpty()) {
-                    passwordTxt.setError("Password is required");
-                    passwordTxt.requestFocus();
-                    return;
-                } else if (password.length() < 8) {
-                    passwordTxt.setError("Password must be at least 8 characters long");
-                    passwordTxt.requestFocus();
-                    return;
-                } else if (!password.matches("^(?=.*[0-9])(?=.*[A-Z])(?=.*[!@#$%^&*+=])(?=\\S+$).{8,}$")) {
-                    passwordTxt.setError("Password must contain at least one number, one uppercase letter, and one special character");
-                    passwordTxt.requestFocus();
-                    return;
+                if (!new_password.isEmpty()) {
+                    if (new_password.length() < 8) {
+                        newPasswordTxt.setError("Password must be at least 8 characters long");
+                        newPasswordTxt.requestFocus();
+                        return;
+                    } else if (!new_password.matches("^(?=.*[0-9])(?=.*[A-Z])(?=.*[!@#$%^&*+=])(?=\\S+$).{8,}$")) {
+                        newPasswordTxt.setError("Password must contain at least one number, one uppercase letter, and one special character");
+                        newPasswordTxt.requestFocus();
+                        return;
+                    }
                 }
 
                 // Validate confirm password
-                if (confirm_password.isEmpty()) {
-                    confirm_passwordTxt.setError("Confirm Password is required");
-                    confirm_passwordTxt.requestFocus();
-                    return;
-                } else if (!confirm_password.equals(password)) {
-                    confirm_passwordTxt.setError("Passwords do not match");
-                    confirm_passwordTxt.requestFocus();
-                    return;
+                if (!confirm_new_password.isEmpty()) {
+                    if (!confirm_new_password.equals(new_password)) {
+                        confirmNewPasswordTxt.setError("Passwords do not match");
+                        confirmNewPasswordTxt.requestFocus();
+                        return;
+                    }
                 }
 
                 // Encrypt data
@@ -137,14 +150,29 @@ public class UpdateProfileActivity extends AppCompatActivity {
                 String encryptedUsername = encrypt(username);
                 String encryptedEmail = encrypt(email);
                 String encryptedAge = encrypt(age);
-                String encryptedPassword = encrypt(password);
-                String encryptedConfirmPassword = encrypt(confirm_password);
+                String encryptedPassword = encrypt(new_password);
+                String encryptedConfirmPassword = encrypt(confirm_new_password);
 
-                // Add country code to phone number
-                String phone = "+63" + rawPhone;
+                if (new_password.isEmpty() && confirm_new_password.isEmpty()) {
+                    encryptedPassword = encrypt(old_password);
+                    encryptedConfirmPassword = encrypt(old_password);
+                } else if (!new_password.isEmpty() && !confirm_new_password.isEmpty()) {
+                    encryptedPassword = encrypt(new_password);
+                    encryptedConfirmPassword = encrypt(confirm_new_password);
+                } else {
+                    if (new_password.isEmpty()) {
+                        newPasswordTxt.setError("Both Confirm and New Password should be filled out or None if you don't want to change");
+                        newPasswordTxt.requestFocus();
+                        return;
+                    } else if (confirm_new_password.isEmpty()) {
+                        confirmNewPasswordTxt.setError("Both Confirm and New Password should be filled out or None if you don't want to change");
+                        confirmNewPasswordTxt.requestFocus();
+                        return;
+                    }
+                }
 
                 // Create userHelperClass instance with encrypted data
-                userHelperClass helperClass = new userHelperClass(encryptedName, encryptedUsername, encryptedEmail, phone, encryptedAge, encryptedPassword, encryptedConfirmPassword);
+                userHelperClass helperClass = new userHelperClass(encryptedName, encryptedUsername, encryptedEmail, rawPhone, encryptedAge, encryptedPassword, encryptedConfirmPassword);
 
                 // Store encrypted data in the database
                 reference.child(username).setValue(helperClass);

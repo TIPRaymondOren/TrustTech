@@ -18,7 +18,6 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 public class LoginActivity extends AppCompatActivity {
@@ -43,7 +42,7 @@ public class LoginActivity extends AppCompatActivity {
         backBtn= (ImageView) findViewById(R.id.backBtn);
         button= (Button) findViewById(R.id.createBtn);
         usertxt= (EditText) findViewById(R.id.usernameTxt);
-        passwordtxt= (EditText) findViewById(R.id.passwordTxt);
+        passwordtxt= (EditText) findViewById(R.id.old_passwordTxt);
         login= (Button) findViewById(R.id.loginBtn);
         progressDialog= new ProgressDialog(this);
         message = findViewById(R.id.message);
@@ -123,6 +122,7 @@ public class LoginActivity extends AppCompatActivity {
                             String emailFromDB = snapshot.child("email").getValue(String.class);
                             String phoneFromDB = snapshot.child("phone").getValue(String.class);
                             String ageFromDB = snapshot.child("age").getValue(String.class);
+                            String passwordGalingSaDB = snapshot.child("password").getValue(String.class);
 
                             Intent intent = new Intent(getApplicationContext(), OtpActivity.class);
                             intent.putExtra("username", userEnteredUser);
@@ -130,6 +130,7 @@ public class LoginActivity extends AppCompatActivity {
                             intent.putExtra("email", emailFromDB);
                             intent.putExtra("phone", phoneFromDB);
                             intent.putExtra("age", ageFromDB);
+                            intent.putExtra("password", passwordGalingSaDB);
                             startActivity(intent);
                             return;
                         } else {

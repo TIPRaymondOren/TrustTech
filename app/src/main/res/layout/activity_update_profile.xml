@@ -227,14 +227,24 @@
                 android:textColorHint="@color/white">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/passwordTxt"
+                    android:id="@+id/old_passwordTxt"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:editable="false"
                     android:fontFamily="@font/blinker"
                     android:inputType="textPassword"
                     android:textColor="@color/white" />
 
             </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:id="@+id/textView6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center_horizontal"
+                android:text="Optional Fields if you want to change your password"
+                android:textColor="#838CC1" />
 
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -289,7 +299,7 @@
                 app:startIconTint="@color/white">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/confirm_passwordTxt"
+                    android:id="@+id/confirm_new_passwordTxt"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:fontFamily="@font/blinker"
@@ -306,6 +316,7 @@
                 android:layout_marginLeft="50dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginRight="50dp"
+                android:layout_marginBottom="20dp"
                 android:backgroundTint="@color/secondary_color"
                 android:fontFamily="@font/blinker_semibold"
                 android:text="Update Profile"

@@ -66,6 +66,7 @@ public class ProfileDashboardActivity extends AppCompatActivity {
                 String email = getIntent().getStringExtra("emailFromLogin");
                 String phone = getIntent().getStringExtra("phoneFromLogin");
                 String age = getIntent().getStringExtra("ageFromLogin");
+                String password = getIntent().getStringExtra("passwordFromLogin");
 
                 Intent intent = new Intent(ProfileDashboardActivity.this, UpdateProfileActivity.class);
                 intent.putExtra("usernameFromDashboard", username);
@@ -73,6 +74,7 @@ public class ProfileDashboardActivity extends AppCompatActivity {
                 intent.putExtra("emailFromDashboard", email);
                 intent.putExtra("phoneFromDashboard", phone);
                 intent.putExtra("ageFromDashboard", age);
+                intent.putExtra("passwordFromDashboard", password);
                 startActivity(intent);
             }
         });

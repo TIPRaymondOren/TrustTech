@@ -37,7 +37,7 @@ public class AdminLoginActivity extends AppCompatActivity {
         backBtn= (ImageView) findViewById(R.id.backBtn);
         button= (Button) findViewById(R.id.createBtn);
         usertxt= (EditText) findViewById(R.id.usernameTxt);
-        passwordtxt= (EditText) findViewById(R.id.passwordTxt);
+        passwordtxt= (EditText) findViewById(R.id.old_passwordTxt);
         login= (Button) findViewById(R.id.loginBtn);
         progressDialog= new ProgressDialog(this);
         message = findViewById(R.id.message);

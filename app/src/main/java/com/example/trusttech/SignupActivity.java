@@ -36,8 +36,8 @@ public class SignupActivity extends AppCompatActivity {
         emailTxt = findViewById(R.id.emailTxt);
         phoneTxt = findViewById(R.id.phoneTxt);
         ageTxt = findViewById(R.id.ageTxt);
-        passwordTxt = findViewById(R.id.passwordTxt);
-        confirm_passwordTxt = findViewById(R.id.confirm_passwordTxt);
+        passwordTxt = findViewById(R.id.old_passwordTxt);
+        confirm_passwordTxt = findViewById(R.id.confirm_new_passwordTxt);
 
         FirebaseApp.initializeApp(this);
 

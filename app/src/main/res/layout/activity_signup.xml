@@ -245,7 +245,7 @@
                 android:textColorHint="@color/white">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/passwordTxt"
+                    android:id="@+id/old_passwordTxt"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:fontFamily="@font/blinker"
@@ -276,7 +276,7 @@
                 app:startIconTint="@color/white">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/confirm_passwordTxt"
+                    android:id="@+id/confirm_new_passwordTxt"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:fontFamily="@font/blinker"
