@@ -61,12 +61,11 @@ public class ProfileDashboardActivity extends AppCompatActivity {
         btnUpdateProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String username = getIntent().getStringExtra("usernameFromOtp");
-                String name = getIntent().getStringExtra("nameFromOtp");
-                String email = getIntent().getStringExtra("emailFromOtp");
-                String phone = getIntent().getStringExtra("phoneFromOtp");
-                String age = getIntent().getStringExtra("ageFromOtp");
-                String password = getIntent().getStringExtra("passwordFromOtp");
+                String username = getIntent().getStringExtra("usernameFromLogin");
+                String name = getIntent().getStringExtra("nameFromLogin");
+                String email = getIntent().getStringExtra("emailFromLogin");
+                String phone = getIntent().getStringExtra("phoneFromLogin");
+                String age = getIntent().getStringExtra("ageFromLogin");
 
                 Intent intent = new Intent(ProfileDashboardActivity.this, UpdateProfileActivity.class);
                 intent.putExtra("usernameFromDashboard", username);
@@ -74,7 +73,6 @@ public class ProfileDashboardActivity extends AppCompatActivity {
                 intent.putExtra("emailFromDashboard", email);
                 intent.putExtra("phoneFromDashboard", phone);
                 intent.putExtra("ageFromDashboard", age);
-                intent.putExtra("passwordFromDashboard", password);
                 startActivity(intent);
             }
         });

@@ -40,20 +40,6 @@ public class UpdateProfileActivity extends AppCompatActivity {
 
         FirebaseApp.initializeApp(this);
 
-        // Assign strings to variables in prep for displaying
-        String username = getIntent().getStringExtra("usernameFromDashboard");
-        String name = getIntent().getStringExtra("nameFromDashboard");
-        String email = getIntent().getStringExtra("emailFromDashboard");
-        String phone = getIntent().getStringExtra("phoneFromDashboard");
-        String age = getIntent().getStringExtra("ageFromDashboard");
-        String password = getIntent().getStringExtra("passwordFromDashboard");
-
-        usernameTxt.setText(username);
-        nameTxt.setText(name);
-        emailTxt.setText(email);
-        phoneTxt.setText(phone);
-        ageTxt.setText(age);
-        passwordTxt.setText(password);
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

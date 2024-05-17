@@ -123,16 +123,13 @@ public class LoginActivity extends AppCompatActivity {
                             String emailFromDB = snapshot.child("email").getValue(String.class);
                             String phoneFromDB = snapshot.child("phone").getValue(String.class);
                             String ageFromDB = snapshot.child("age").getValue(String.class);
-                            String passwordDB = snapshot.child("password").getValue(String.class);
-
 
                             Intent intent = new Intent(getApplicationContext(), OtpActivity.class);
-                            intent.putExtra("usernameFromLogin", userEnteredUser);
-                            intent.putExtra("nameFromLogin", nameFromDB);
-                            intent.putExtra("emailFromLogin", emailFromDB);
-                            intent.putExtra("phoneFromLogin", phoneFromDB);
-                            intent.putExtra("ageFromLogin", ageFromDB);
-                            intent.putExtra("passwordFromLogin", passwordDB);
+                            intent.putExtra("username", userEnteredUser);
+                            intent.putExtra("name", nameFromDB);
+                            intent.putExtra("email", emailFromDB);
+                            intent.putExtra("phone", phoneFromDB);
+                            intent.putExtra("age", ageFromDB);
                             startActivity(intent);
                             return;
                         } else {

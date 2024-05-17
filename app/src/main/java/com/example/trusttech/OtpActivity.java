@@ -164,20 +164,18 @@ public class OtpActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             // if the code is correct and the task is successful
                             // we are sending our user to new activity.
-                            String username = getIntent().getStringExtra("usernameFromLogin");
-                            String name = getIntent().getStringExtra("nameFromLogin");
-                            String email = getIntent().getStringExtra("emailFromLogin");
-                            String phone = getIntent().getStringExtra("phoneFromLogin");
-                            String age = getIntent().getStringExtra("ageFromLogin");
-                            String password = getIntent().getStringExtra("passwordFromLogin");
+                            String username = getIntent().getStringExtra("username");
+                            String name = getIntent().getStringExtra("name");
+                            String email = getIntent().getStringExtra("email");
+                            String phone = getIntent().getStringExtra("phone");
+                            String age = getIntent().getStringExtra("age");
 
                             Intent intent = new Intent(OtpActivity.this, ProfileDashboardActivity.class);
-                            intent.putExtra("usernameFromOtp", username);
-                            intent.putExtra("nameFromOtp", name);
-                            intent.putExtra("emailFromOtp", email);
-                            intent.putExtra("phoneFromOtp", phone);
-                            intent.putExtra("ageFromOtp", age);
-                            intent.putExtra("passwordFromOtp", password);
+                            intent.putExtra("usernameFromLogin", username);
+                            intent.putExtra("nameFromLogin", name);
+                            intent.putExtra("emailFromLogin", email);
+                            intent.putExtra("phoneFromLogin", phone);
+                            intent.putExtra("ageFromLogin", age);
                             startActivity(intent);
                             finish();
                         } else {
